@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "aha-dev-environment",
+    "test": "aha-test-environment",
+    "production": "aha-production-environment"
+  }
+}
