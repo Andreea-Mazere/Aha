@@ -16,7 +16,7 @@ jobs:
           name: install-dependencies
           command: |
             npm install
-            npm install -g @angular/cli
+            sudo npm install -g @angular/cli
       # Cache local dependencies if they don't exist
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
@@ -45,7 +45,7 @@ jobs:
             command: echo ${CIRCLE_BRANCH}
         - run:
             name: Install firebase CLI
-            command: npm install -g firebase-tools
+            command: sudo npm install -g firebase-tools
         # Restore cache from the build job which contains the
         # dist folder that needs to be deployed
         - restore_cache:
