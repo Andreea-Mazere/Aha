@@ -52,6 +52,7 @@ jobs:
             key: dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}    
         - run:
             name: deploy to correct branch
+            command: |
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
                 firebase use default
             elif [ "${CIRCLE_BRANCH}" == "test" ]; then
@@ -60,6 +61,7 @@ jobs:
                 firebase use production
             fi
             firebase deploy --token=$FIREBASE_TOKEN --non-interactive
+
 workflows:
     version: 2
     # The build and deploy workflow
