@@ -53,14 +53,14 @@ jobs:
         - run:
             name: deploy to correct branch
             command: |
-            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-                firebase use default
-            elif [ "${CIRCLE_BRANCH}" == "test" ]; then
-                firebase use test
-            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                firebase use production
-            fi
-            firebase deploy --token=$FIREBASE_TOKEN --non-interactive
+              if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+                  firebase use default
+              elif [ "${CIRCLE_BRANCH}" == "test" ]; then
+                  firebase use test
+              elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+                  firebase use production
+              fi
+              firebase deploy --token=$FIREBASE_TOKEN --non-interactive
 
 workflows:
     version: 2
