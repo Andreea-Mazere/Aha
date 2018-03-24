@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/Aha
     docker:
-      - image: circleci/node:9.7.1-browsers
+      - image: circleci/node:9.8.0-browsers
     steps:
       - checkout
       # Log the current branch
