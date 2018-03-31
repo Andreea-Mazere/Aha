@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { WordsService } from './words.service';
+import { Word } from './word';
 
 @Component({
   selector: 'app-words',
@@ -7,9 +9,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WordsComponent implements OnInit {
 
-  constructor() { }
+   words: Word[];
+   currentWordIndex: number
+
+   get currentWord() :Word { 
+     if (this.words === undefined || this.words.length === 0)
+     {
+       return Word.Null;
+     }
+     return this.words[this.currentWordIndex]
+    }
+   
+   onCurrentWordInteractionEnded() {
+     if (this.currentWordIndex >= this.words.length - 1)
+     {
+       //todo: emit end event or something?
+       return;
+     }
+     this.currentWordIndex ++;
+   }
+
+   constructor(private readonly service: WordsService) { 
+   }
 
   ngOnInit() {
+    this.service.getWords().then(words => {
+      this.words = words;
+      this.currentWordIndex = 0;
+    })
   }
 
 }

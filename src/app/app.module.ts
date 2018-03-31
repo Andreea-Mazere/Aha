@@ -4,7 +4,9 @@ import { RouterModule, Routes } from '@angular/router'
 
 import { AppComponent } from './app.component';
 import { WordsComponent } from './words/words.component';
+import { WordSlideComponent } from './words/word-slide/word-slide.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { WordsService } from './words/words.service';
 
 const routes: Routes = [
   {
@@ -26,13 +28,14 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     WordsComponent,
+    WordSlideComponent,
     PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [WordsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
