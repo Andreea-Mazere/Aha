@@ -35,7 +35,7 @@ jobs:
   deploy:
     working_directory: ~/Aha
     docker:
-      - image: circleci/node:9.7.1-browsers
+      - image: circleci/node:9.8.0-browsers
     steps:
       - checkout
       # Log the current branch
@@ -53,12 +53,15 @@ jobs:
           name: deploy to correct environment according to branch
           command: |
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-                firebase use default
+                firebaseEnv = default
             elif [ "${CIRCLE_BRANCH}" == "test" ]; then
-                firebase use test
+                firebaseEnv = test
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                firebase use production
+                firebaseEnv = production
             fi
+            openssl aes-256-cbc -d -in './firebase-service-key-'+$firebaseEnv+'-encrypted' -out ./firebase-service-key.json -k $FIREBASE_SERVICE_KEY
+            node ./app/migrations.js ./firebase-service-key.json
+            firebase use $firebaseEnv
             firebase deploy --token=$FIREBASE_TOKEN --non-interactive
 
 workflows:
