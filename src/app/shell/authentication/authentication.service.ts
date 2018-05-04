@@ -37,7 +37,6 @@ export class AuthenticationService {
     private afAuth: AngularFireAuth) {
     this.fiebaseUser = afAuth.authState;
     this.user = this.fiebaseUser.switchMap(this.getUserData).share();
-    this.user.subscribe();
   }
 
 }
