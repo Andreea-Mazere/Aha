@@ -10,6 +10,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppComponent } from './app.component';
 import { AuthenticationComponent } from './shell/authentication/authentication.component';
+import { AuthenticationService } from './shell/authentication/authentication.service';
 
 // Attach firebase to window so FirebaseUI can access it
 //(<any>window).firebase = firebase
@@ -47,7 +48,7 @@ var firebaseConfig = {
     AngularFireAuthModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

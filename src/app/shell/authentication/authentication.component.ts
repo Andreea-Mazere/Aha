@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import * as firebase from 'firebase/app';
+import { AuthenticationService } from './authentication.service';
 
 @Component({
   selector: 'app-authentication',
@@ -11,26 +9,30 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./authentication.component.css']
 })
 export class AuthenticationComponent implements OnInit {
-  user: Observable<firebase.User>;
+  userName: Observable<string>;
+  loggedIn: Observable<boolean>;
+  loginFormVisible: Observable<boolean>;
 
   form: FormGroup;
 
   constructor(
-    public afAuth: AngularFireAuth,
-    formBuilder: FormBuilder) {
-    this.user = this.afAuth.authState;
+    formBuilder: FormBuilder,
+    private service: AuthenticationService) {
+    this.userName = service.user.map(u => u.name);
+    this.loggedIn = service.user.map(u => u.isAuthenticated);
+    this.loginFormVisible = this.loggedIn.map(l => !l);
     this.form = formBuilder.group({
       'email': ["", Validators.required],
       'password': ["", Validators.required]
     });
   }
 
-  login() { 
-    this.afAuth.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password);
+  login() {
+    this.service.logInWithEmailAndPassword(this.form.value.email, this.form.value.password);
   }
 
   logout() {
-    this.afAuth.auth.signOut();
+    this.service.logOut();
   }
 
   ngOnInit() {

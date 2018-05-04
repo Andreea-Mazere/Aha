@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="form" (ngSubmit)="login()" *ngIf="!(user | async)?.uid">
+  <form [formGroup]="form" (ngSubmit)="login()" *ngIf="(loginFormVisible | async)">
     <div>
       <label for="email">Email:</label>
       <input type="email" id="email" formControlName="email"/>
@@ -11,8 +11,8 @@
     <button type="submit" [disabled]="!form.valid">Login</button>
   </form>
 
-  <p *ngIf="(user | async)?.uid">
-    logged in as {{(user | async)?.email}}
+  <p *ngIf="loggedIn | async">
+    logged in as {{userName | async}}
     <button (click)="logout()">Logout</button>
   </p>
 </div>
