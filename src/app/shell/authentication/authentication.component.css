@@ -1,0 +1,11 @@
+label, input {
+  display:block;
+}
+
+label {
+  text-align: left;
+}
+
+form>div {
+  display:inline-block;
+}
