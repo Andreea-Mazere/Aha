@@ -8,4 +8,10 @@ label {
 
 form>div {
   display:inline-block;
+  vertical-align: top;
+}
+
+form>button {
+  position:relative;
+  top:1.2rem;
 }

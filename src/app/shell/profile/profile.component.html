@@ -1,0 +1,21 @@
+<div>
+  <form [formGroup]="passwordChangeForm" (ngSubmit)="changePassword()">
+    <div>
+      <label for="oldPassword">Old password:</label>
+      <input type="password" id="oldPassword" formControlName="oldPassword"/>
+      <app-validation-errors translationPrefix="passwordChangeForm" [control]="passwordChangeForm.get('oldPassword')"></app-validation-errors>
+    </div>
+    <div>
+      <label for="newPassword">New password:</label>
+      <input type="password" id="newPassword" formControlName="newPassword"/>
+      <app-validation-errors translationPrefix="passwordChangeForm" [control]="passwordChangeForm.get('newPassword')"></app-validation-errors>
+    </div>
+    <div>
+      <label for="newPasswordConfirm">Confirm new password:</label>
+      <input type="password" id="newPasswordConfirm" formControlName="newPasswordConfirm"/>
+      <app-validation-errors translationPrefix="passwordChangeForm" [control]="passwordChangeForm.get('newPasswordConfirm')"></app-validation-errors>
+    </div>
+    <button type="submit" [disabled]="!passwordChangeForm.valid">Change password</button>
+    <app-validation-errors translationPrefix="passwordChangeForm" [control]="passwordChangeForm"></app-validation-errors>
+  </form>
+</div>

@@ -11,9 +11,11 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AppComponent } from './app.component';
 import { AuthenticationComponent } from './shell/authentication/authentication.component';
 import { AuthenticationService } from './shell/authentication/authentication.service';
+import { ProfileComponent } from './shell/profile/profile.component';
 
-// Attach firebase to window so FirebaseUI can access it
-//(<any>window).firebase = firebase
+import { TranslateLoader, TranslateModule, TranslatePipe, TranslateService } from '@ngx-translate/core'; 
+import { TranslateLoaderService, createTranslateLoader } from './translate/translate-loader.service';
+import { ValidationErrorsComponent } from './common/validation-errors/validation-errors.component'
 
 var firebaseConfig = {
   apiKey: "AIzaSyAlVylOFYkMZquZ_YCRnqC0rgekme7Rle8",
@@ -23,32 +25,29 @@ var firebaseConfig = {
   storageBucket: "aha-dev-environment.appspot.com",
   messagingSenderId: "516676519628"
 };
-//firebase.initializeApp(config);
-
-// Import FirebaseUI standalone (as its npm.js file causes double firebase code)
-//import 'firebaseui/dist/firebaseui'  // Imports for side effects only
-
-// Declare `window.firebaseui` that the above import creates
-// declare global {
-//     const firebaseui
-// }
-
-
-//var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthenticationComponent
+    AuthenticationComponent,
+    ProfileComponent,
+    ValidationErrorsComponent
   ],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule.forRoot({
+      loader: {
+      provide: TranslateLoader,
+      useFactory: createTranslateLoader
+      }
+      }), 
   ],
   providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/publishReplay';
 import * as firebase from 'firebase/app';
 
 @Injectable()
 export class AuthenticationService {
-  logInWithEmailAndPassword(email: string, password: string): any {
-    this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  changePassword(oldPassword: string, newPassword: string): Promise<any> {
+    var credential = firebase.auth.EmailAuthProvider.credential(this.firebaseUserValue.email, oldPassword);
+    return this.firebaseUserValue.reauthenticateWithCredential(credential)
+      .then(() =>  this.firebaseUserValue.updatePassword(newPassword));
   }
-  logOut(): any {
-    this.afAuth.auth.signOut();
+  logInWithEmailAndPassword(email: string, password: string): Promise<any> {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
-  private fiebaseUser: Observable<firebase.User>;
+  logOut(): Promise<any> {
+    return this.afAuth.auth.signOut();
+  }
+  private firebaseUser: Observable<firebase.User>;
+  firebaseUserValue: firebase.User;
   user: Observable<User>;
 
   getUserData(u: firebase.User): Promise<User> {
@@ -34,9 +41,11 @@ export class AuthenticationService {
     });
   }
   constructor(
-    private afAuth: AngularFireAuth) {
-    this.fiebaseUser = afAuth.authState;
-    this.user = this.fiebaseUser.switchMap(this.getUserData).share();
+    private afAuth: AngularFireAuth
+  ) {
+    this.firebaseUser = afAuth.authState;
+    this.firebaseUser.subscribe(u => this.firebaseUserValue = u);
+    this.user = this.firebaseUser.switchMap(this.getUserData).publishReplay(1).refCount();
   }
 
 }
