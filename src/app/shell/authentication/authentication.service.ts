@@ -8,6 +8,7 @@ import 'rxjs/add/operator/switchMap';
 @Injectable()
 export class AuthenticationService {
   changePassword(oldPassword: string, newPassword: string): Promise<any> {
+    if (this.firebaseUserValue == null) return Promise.reject({code:'MustBeLoggedOnForThisOperation'});
     var credential = firebase.auth.EmailAuthProvider.credential(this.firebaseUserValue.email, oldPassword);
     return this.firebaseUserValue.reauthenticateWithCredential(credential)
       .then(() =>  this.firebaseUserValue.updatePassword(newPassword));
