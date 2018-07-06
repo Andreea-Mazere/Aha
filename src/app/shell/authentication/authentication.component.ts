@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AuthenticationService } from './authentication.service';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-authentication',

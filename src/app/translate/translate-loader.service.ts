@@ -18,7 +18,7 @@ export class TranslateLoaderService implements TranslateLoader {
       loginForm_email_required : 'Your email address is required.',
       loginForm_password_required : 'Your password is required.',
       'loginForm_email_auth/invalid-email': "We couldn't find a user with this email.\n Is there a typo? \n Or have you registered with a different email?",
-      'loginForm_password_auth/invalid-password': "The password is incorrect.",
+      'loginForm_password_auth/wrong-password': "The password is incorrect.",
       'loginForm_auth/network-request-failed': "Network failure."
     }]);
   }

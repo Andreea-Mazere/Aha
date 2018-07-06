@@ -13,8 +13,8 @@ import { AuthenticationComponent } from './shell/authentication/authentication.c
 import { AuthenticationService } from './shell/authentication/authentication.service';
 import { ProfileComponent } from './shell/profile/profile.component';
 
-import { TranslateLoader, TranslateModule, TranslatePipe, TranslateService } from '@ngx-translate/core'; 
-import { TranslateLoaderService, createTranslateLoader } from './translate/translate-loader.service';
+import { TranslateLoader, TranslateModule, TranslatePipe } from '@ngx-translate/core'; 
+import { createTranslateLoader } from './translate/translate-loader.service';
 import { ValidationErrorsComponent } from './common/validation-errors/validation-errors.component'
 
 var firebaseConfig = {
