@@ -1,0 +1,3 @@
+<div *ngIf="shouldShow">
+    <div class="validation-error" *ngFor="let errorTranslationKey of errorTranslationKeys">{{ errorTranslationKey | translate}}</div>
+  </div>
