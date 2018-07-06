@@ -13,7 +13,7 @@ import { AuthenticationComponent } from './shell/authentication/authentication.c
 import { AuthenticationService } from './shell/authentication/authentication.service';
 import { ProfileComponent } from './shell/profile/profile.component';
 
-import { TranslateLoader, TranslateModule, TranslatePipe } from '@ngx-translate/core'; 
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core'; 
 import { createTranslateLoader } from './translate/translate-loader.service';
 import { ValidationErrorsComponent } from './common/validation-errors/validation-errors.component'
 
