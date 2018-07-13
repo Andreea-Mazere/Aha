@@ -16,8 +16,8 @@ export class WordSlideComponent implements OnInit {
   }
 
   private _word: Word;
-  @Input()
   get word() {return this._word;}
+  @Input()
   set word(value: Word) {this.init(value)}
   
   @Output()

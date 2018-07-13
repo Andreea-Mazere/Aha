@@ -35,7 +35,7 @@ jobs:
   deploy:
     working_directory: ~/Aha
     docker:
-      - image: circleci/node:9.7.1-browsers
+      - image: circleci/node:9.8.0-browsers
     steps:
       - checkout
       # Log the current branch
@@ -45,6 +45,9 @@ jobs:
       - run:
           name: Install firebase CLI
           command: sudo npm install -g firebase-tools
+      - run:
+          name: Install firebase admin sdk
+          command: npm install firebase-admin
       # Restore cache from the build job which contains the
       # dist folder that needs to be deployed
       - restore_cache:
@@ -53,12 +56,15 @@ jobs:
           name: deploy to correct environment according to branch
           command: |
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-                firebase use default
+                firebaseEnv = default
             elif [ "${CIRCLE_BRANCH}" == "test" ]; then
-                firebase use test
+                firebaseEnv = test
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                firebase use production
+                firebaseEnv = production
             fi
+            openssl aes-256-cbc -d -in './firebase-service-key-'+$firebaseEnv+'-encrypted' -out ./firebase-service-key.json -k $FIREBASE_SERVICE_KEY
+            node ./app/migrations.js ./firebase-service-key.json $CREATORS_INITIAL_PASSWORD
+            firebase use $firebaseEnv
             firebase deploy --token=$FIREBASE_TOKEN --non-interactive
 
 workflows:
