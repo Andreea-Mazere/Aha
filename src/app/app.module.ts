@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router'
-import { ReactiveFormsModule } from '@angular/forms'
+import { RouterModule, Routes } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AngularFireModule } from 'angularfire2';
 
@@ -20,22 +20,13 @@ import { ProfileComponent } from './shell/profile/profile.component';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core'; 
 import { createTranslateLoader } from './translate/translate-loader.service';
-import { ValidationErrorsComponent } from './common/validation-errors/validation-errors.component'
-const routes: Routes = [
-  {
-    path: 'words',
-    component: WordsComponent
-  },
-  {
-    path: '',
-    redirectTo: 'words',
-    pathMatch: 'full'
-  },  
-  { 
-    path: '**', 
-    component: PageNotFoundComponent 
-  }
-];
+import { ValidationErrorsComponent } from './common/validation-errors/validation-errors.component';
+import {routes} from './app.routes';
+import { StudentCanActivateGuard } from './common/guards/student-can-activate.guard';
+import { ContentComponent } from './content/content.component';
+import { HomeComponent } from './home/home.component';
+import { AdminCanActivateGuard } from './common/guards/admin-can-activate.guard';
+import { NavigationService } from './navigation/navigation.service';
 
 var firebaseConfig = {
   apiKey: "AIzaSyAlVylOFYkMZquZ_YCRnqC0rgekme7Rle8",
@@ -54,7 +45,9 @@ var firebaseConfig = {
     ValidationErrorsComponent,
     WordsComponent,
     WordSlideComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ContentComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +63,7 @@ var firebaseConfig = {
       }
     }), 
   ],
-  providers: [AuthenticationService, WordsService],
+  providers: [AuthenticationService, WordsService, StudentCanActivateGuard, AdminCanActivateGuard, NavigationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

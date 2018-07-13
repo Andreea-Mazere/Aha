@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AuthenticationService } from './authentication.service';
 import 'rxjs/add/operator/map';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authentication',
@@ -18,7 +19,8 @@ export class AuthenticationComponent implements OnInit {
 
   constructor(
     formBuilder: FormBuilder,
-    private service: AuthenticationService
+    private service: AuthenticationService,
+    private router: Router
   ) {
     this.userName = service.user.map(u => u.name);
     this.loggedIn = service.user.map(u => u.isAuthenticated);
