@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { RouterModule, Routes, Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AngularFireModule } from 'angularfire2';
@@ -24,9 +24,9 @@ import { ValidationErrorsComponent } from './common/validation-errors/validation
 import {routes} from './app.routes';
 import { StudentCanActivateGuard } from './common/guards/student-can-activate.guard';
 import { ContentComponent } from './content/content.component';
-import { HomeComponent } from './home/home.component';
 import { AdminCanActivateGuard } from './common/guards/admin-can-activate.guard';
 import { NavigationService } from './navigation/navigation.service';
+import { DynamicHomeGuard } from './common/guards/dynamic-home-guard';
 
 var firebaseConfig = {
   apiKey: "AIzaSyAlVylOFYkMZquZ_YCRnqC0rgekme7Rle8",
@@ -46,8 +46,7 @@ var firebaseConfig = {
     WordsComponent,
     WordSlideComponent,
     PageNotFoundComponent,
-    ContentComponent,
-    HomeComponent,
+    ContentComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +62,13 @@ var firebaseConfig = {
       }
     }), 
   ],
-  providers: [AuthenticationService, WordsService, StudentCanActivateGuard, AdminCanActivateGuard, NavigationService],
+  providers: [AuthenticationService, 
+    WordsService, 
+    StudentCanActivateGuard, 
+    AdminCanActivateGuard, 
+    DynamicHomeGuard, 
+    NavigationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

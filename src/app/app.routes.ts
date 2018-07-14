@@ -3,8 +3,8 @@ import { WordsComponent } from "./words/words.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { StudentCanActivateGuard } from "./common/guards/student-can-activate.guard";
 import { ContentComponent } from "./content/content.component";
+import { DynamicHomeGuard } from "./common/guards/dynamic-home-guard";
 import { AdminCanActivateGuard } from "./common/guards/admin-can-activate.guard";
-import { HomeComponent } from "./home/home.component";
 
 export const routes: Routes = [
     {
@@ -14,13 +14,15 @@ export const routes: Routes = [
     },
     {
         path: 'content',
-        component: ContentComponent,
+        component: ContentComponent, 
         canActivate: [AdminCanActivateGuard]
       },
     {
       path: '',
       pathMatch: 'full',
-      component: HomeComponent
+      // DynamicHomeGuard ignores whatever component we pass in here and redirects
+      component: PageNotFoundComponent, 
+      canActivate: [DynamicHomeGuard]
     }, 
     { 
       path: '**', 

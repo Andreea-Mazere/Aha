@@ -1,32 +1,35 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService, User } from '../shell/authentication/authentication.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { combineLatest } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Router} from '@angular/router';
+import {  skip, first } from 'rxjs/operators';
 
 @Injectable()
 export class NavigationService {
 
   constructor(private authenticationService: AuthenticationService, 
-    private router: Router, private activatedRoute: ActivatedRoute) { }
+    private router: Router) { }
   
   init(){
-    combineLatest(
-      this.authenticationService.user, 
-      this.activatedRoute.url.pipe(filter(url => url.length == 1 && url[0].path == "")))
-    .subscribe(([user, url]) => {
-      this.home(user);
-      console.log(url)
-    }) ;
+    var userChanges = this.authenticationService.users.pipe(skip(1));
+    userChanges.subscribe(user => this.home(user));
   }
 
-  private home(user: User){
-    if(user.isAdmin){
-      this.router.navigate(['/content']);
+  home(user?: User){    
+    if(user){      
+      this.navigateToDefaultRoute(user);
     }
-    else{
-        this.router.navigate(['/words']);
+    else {
+      this.authenticationService.getUser().then(u => this.navigateToDefaultRoute(u));
     }
+  }
+
+  private navigateToDefaultRoute(user: User){
+    console.log("navigate to default", user);
+    this.router.navigate([this.getDefaultRoute(user)]);
+  }
+
+  private getDefaultRoute(user: User): string {
+    return user.isAdmin ? '/content' : "/words";
   }
 
 }

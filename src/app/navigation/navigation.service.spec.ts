@@ -1,11 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { NavigationService } from './navigation.service';
+import { AppModule } from '../app.module';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('NavigationService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [NavigationService]
+      imports: [AppModule, RouterTestingModule]
     });
   });
 

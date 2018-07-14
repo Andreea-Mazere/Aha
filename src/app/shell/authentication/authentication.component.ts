@@ -19,11 +19,10 @@ export class AuthenticationComponent implements OnInit {
 
   constructor(
     formBuilder: FormBuilder,
-    private service: AuthenticationService,
-    private router: Router
+    private service: AuthenticationService
   ) {
-    this.userName = service.user.map(u => u.name);
-    this.loggedIn = service.user.map(u => u.isAuthenticated);
+    this.userName = service.users.map(u => u.name);
+    this.loggedIn = service.users.map(u => u.isAuthenticated);
     this.loginFormVisible = this.loggedIn.map(l => !l);
     this.form = formBuilder.group({
       email: ["", Validators.required],

@@ -8,6 +8,6 @@ export class StudentCanActivateGuard implements CanActivate {
   constructor(private authenticationService: AuthenticationService, private router: Router) {}
  
   canActivate(){
-    return this.authenticationService.user.map(u => !u.isAdmin);
+    return this.authenticationService.users.map(u => !u.isAdmin);
   }
 }
