@@ -1,0 +1,10 @@
+<div>
+  <label for="search"> Words containing:</label>
+  <input type="text" id="search" [formControl]="searchControl"/>
+</div>
+<ul>
+  <li *ngFor="let word of (words | async)">
+    <app-word-slide [word]='word'></app-word-slide>
+  </li>
+</ul>
+<p [innerHtml]="(status | async)"></p>
