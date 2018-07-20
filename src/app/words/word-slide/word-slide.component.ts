@@ -54,7 +54,7 @@ export class WordSlideComponent implements OnInit {
     this.interactionEndedEmitted = true;
     setTimeout(() => {
       this.interactionEnded.emit();
-    }, 5000)
+    }, 5000)//todo move this timeout to clent code / parent components
   }
 
   constructor() { 

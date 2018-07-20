@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, Router} from "@angular/router";
-import { Observable } from "rxjs/Observable";
-import { AuthenticationService } from "../../shell/authentication/authentication.service";
+import { AuthenticationService } from "../authentication/authentication.service";
 
 @Injectable()
 export class StudentCanActivateGuard implements CanActivate {

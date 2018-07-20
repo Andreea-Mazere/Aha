@@ -1,10 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Word } from './word'
+import { AngularFireDatabase } from 'angularfire2//database';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class WordsService {
+  words: Observable<Word[]>;
 
-  constructor() { }
+  constructor(
+    private readonly db: AngularFireDatabase) { 
+  }
+  
+  getWordsStartsWith(searchStrings: Observable<string>):Observable<Word[]>{
+    return searchStrings
+      .switchMap(sw => sw === null || sw === ''? 
+      Observable.of([]):
+      this.db.list('content/words', ref => 
+        ref
+          .orderByKey()
+          .startAt(sw)
+          .endAt(sw + '\uFFFF')
+        )
+        .valueChanges()
+        .map(words => words.map(w => 
+          new Word({
+            text: w["text"],
+            imageUrl: w["imageUrl"],
+            soundUrl: w["soundUrl"]
+          })
+        ))
+      );
+  }
   
   getWords(): Promise<Word[]>{
     return new Promise<Word[]>((resolve, reject) => {

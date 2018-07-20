@@ -5,6 +5,8 @@ import { StudentCanActivateGuard } from "./common/guards/student-can-activate.gu
 import { ContentComponent } from "./content/content.component";
 import { DynamicHomeGuard } from "./common/guards/dynamic-home-guard";
 import { AdminCanActivateGuard } from "./common/guards/admin-can-activate.guard";
+import { WordsComponent as ContentWords } from "./content/words/words.component";
+
 
 export const routes: Routes = [
     {
@@ -16,7 +18,12 @@ export const routes: Routes = [
         path: 'content',
         component: ContentComponent, 
         canActivate: [AdminCanActivateGuard]
-      },
+    },
+    {
+        path: 'content/words',
+        component: ContentWords, 
+        canActivate: [AdminCanActivateGuard]
+    },
     {
       path: '',
       pathMatch: 'full',

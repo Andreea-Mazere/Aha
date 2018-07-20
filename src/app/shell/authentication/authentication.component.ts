@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { AuthenticationService } from './authentication.service';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { AuthenticationService } from '../../common/authentication/authentication.service';
 import 'rxjs/add/operator/map';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authentication',

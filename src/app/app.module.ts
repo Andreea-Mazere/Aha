@@ -11,11 +11,12 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppComponent } from './app.component';
 import { WordsComponent } from './words/words.component';
+import { WordsComponent as ContentWords } from "./content/words/words.component";
 import { WordSlideComponent } from './words/word-slide/word-slide.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { WordsService } from './words/words.service';
 import { AuthenticationComponent } from './shell/authentication/authentication.component';
-import { AuthenticationService } from './shell/authentication/authentication.service';
+import { AuthenticationService } from './common/authentication/authentication.service';
 import { ProfileComponent } from './shell/profile/profile.component';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core'; 
@@ -46,7 +47,8 @@ var firebaseConfig = {
     WordsComponent,
     WordSlideComponent,
     PageNotFoundComponent,
-    ContentComponent
+    ContentComponent,
+    ContentWords
   ],
   imports: [
     BrowserModule,
