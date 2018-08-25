@@ -4,13 +4,34 @@ import { AngularFireDatabase } from 'angularfire2//database';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { filter } from 'rxjs/operators';
+import { Http, Headers } from '@angular/http';
+import { AuthenticationService } from '../common/authentication/authentication.service';
 
 @Injectable()
 export class WordsService {
   words: Observable<Word[]>;
 
   constructor(
-    private readonly db: AngularFireDatabase) { 
+    private readonly db: AngularFireDatabase,
+    private http: Http,
+    private authenticationService: AuthenticationService
+  ) { }
+  
+  setWordImage(word: string, imageFile: any): any {
+    console.log('should upload file for word ' + word + ': ', imageFile);
+    this.authenticationService.getUser()
+      .then(user => {
+        console.log('user here ', user);
+        var data = new FormData();
+        data.append('wordText', word);
+        data.append('wordImage', imageFile, imageFile.name);
+        this.http.put(
+          'https://us-central1-aha-dev-environment.cloudfunctions.net/api/addImageFile', 
+          data, 
+          { headers: new Headers({Authorization: 'Bearer ' + user.token})}
+        )
+          .subscribe();
+      });
   }
   
   getWordsStartsWith(searchStrings: Observable<string>):Observable<Word[]>{

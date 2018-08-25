@@ -28,7 +28,7 @@ export class AuthenticationService {
     return this.users.pipe(first()).toPromise();
   }
 
-  getUserData(u: firebase.User): Promise<User> {
+  private getUserData(u: firebase.User): Promise<User> {
     if (u == null)
       return new Promise<User>((resolve, reject) => {
         var guest = new User();
@@ -43,6 +43,7 @@ export class AuthenticationService {
       user.isAdmin = claims.admin;
       user.name = claims.name;
       user.isAuthenticated = true;
+      user.token = id;
       console.log('user: ', user);
       return user;
     });
@@ -61,4 +62,5 @@ export class User {
   isAuthenticated: boolean;
   name: string;
   isAdmin: boolean;
+  token: string;
 }

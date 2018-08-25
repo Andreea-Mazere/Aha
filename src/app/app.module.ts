@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { RouterModule, Routes, Router } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AngularFireModule } from 'angularfire2';
 
@@ -28,6 +28,11 @@ import { ContentComponent } from './content/content.component';
 import { AdminCanActivateGuard } from './common/guards/admin-can-activate.guard';
 import { NavigationService } from './navigation/navigation.service';
 import { DynamicHomeGuard } from './common/guards/dynamic-home-guard';
+
+import { HttpModule } from "@angular/http"
+
+import { ListboxModule } from 'primeng/primeng'
+import {FileUploadModule} from 'primeng/fileupload';
 
 var firebaseConfig = {
   apiKey: "AIzaSyAlVylOFYkMZquZ_YCRnqC0rgekme7Rle8",
@@ -56,6 +61,8 @@ var firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     ReactiveFormsModule,
+    HttpModule,
+    FormsModule,
     RouterModule.forRoot(routes),
     TranslateModule.forRoot({
       loader: {
@@ -63,6 +70,7 @@ var firebaseConfig = {
         useFactory: createTranslateLoader
       }
     }), 
+    ListboxModule, FileUploadModule
   ],
   providers: [AuthenticationService, 
     WordsService, 
