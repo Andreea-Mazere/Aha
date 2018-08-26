@@ -31,9 +31,15 @@ import { DynamicHomeGuard } from './common/guards/dynamic-home-guard';
 
 import { HttpModule } from "@angular/http"
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ListboxModule } from 'primeng/primeng'
-import {FileUploadModule} from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
+//todo support different environments depending on origin
 var firebaseConfig = {
   apiKey: "AIzaSyAlVylOFYkMZquZ_YCRnqC0rgekme7Rle8",
   authDomain: "aha-dev-environment.firebaseapp.com",
@@ -59,6 +65,7 @@ var firebaseConfig = {
     BrowserModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
     AngularFireAuthModule,
     ReactiveFormsModule,
     HttpModule,
@@ -70,7 +77,8 @@ var firebaseConfig = {
         useFactory: createTranslateLoader
       }
     }), 
-    ListboxModule, FileUploadModule
+    InputTextModule, ButtonModule, ListboxModule, FileUploadModule, 
+    BrowserAnimationsModule, DialogModule
   ],
   providers: [AuthenticationService, 
     WordsService, 

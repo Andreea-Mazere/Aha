@@ -2,17 +2,18 @@ var admin = require('firebase-admin');
 
 const args = process.argv.slice(2);
 
-if (args.length != 2) {
-  console.log('usage: node migrations.js path-to-service-credentials creators-initial-password');
+if (args.length != 1) {
+  console.log('usage: node migrations.js firebaseEnvironement');
   process.exit();
 }
+let firebaseEnvironment = args[0];
 
-let serviceAccount = require(args[0]);
-var creatorsInitialPassword = args[1];
+let serviceAccount = require('../firebase-service-key.json');
+let config = require('../config.json')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://aha-dev-environment.firebaseio.com'
+  databaseURL: `https://aha-${firebaseEnvironment}-environment.firebaseio.com`
 });
 
 const adminEmail = 'creators.aha@gmail.com';
@@ -24,7 +25,7 @@ admin.auth().getUserByEmail(adminEmail)
     console.log(error.errorInfo.message, ' => creating seed admin user:', adminEmail);
     return admin.auth().createUser({
         email: adminEmail,
-        password: creatorsInitialPassword,
+        password: config.creatorsInitialPassword,
         emailVerified: true,
         displayName: "Creators",
         disabled: false

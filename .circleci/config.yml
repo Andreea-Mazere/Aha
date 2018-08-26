@@ -55,6 +55,7 @@ jobs:
       - run:
           name: deploy to correct environment according to branch
           command: |
+            #todo expand vars in deploy.config file https://stackoverflow.com/questions/14434549/how-to-expand-shell-variables-in-a-text-file
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
                 firebaseEnv = default
             elif [ "${CIRCLE_BRANCH}" == "test" ]; then
@@ -63,8 +64,10 @@ jobs:
                 firebaseEnv = production
             fi
             openssl aes-256-cbc -d -in './firebase-service-key-'+$firebaseEnv+'-encrypted' -out ./firebase-service-key.json -k $FIREBASE_SERVICE_KEY
-            node ./app/migrations.js ./firebase-service-key.json $CREATORS_INITIAL_PASSWORD
+            node ./app/migrations.js $firebaseEnv
             firebase use $firebaseEnv
+            firebase functions:config:set aws.id="$AWS_ID"
+            firebase functions:config:set aws.key="$AWS_KEY"
             firebase deploy --token=$FIREBASE_TOKEN --non-interactive
 
 workflows:

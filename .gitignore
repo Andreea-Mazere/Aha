@@ -44,3 +44,6 @@ testem.log
 Thumbs.db
 
 firebase-debug\.log
+debug.log
+
+config.json

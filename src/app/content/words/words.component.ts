@@ -7,17 +7,18 @@ import { startWith, debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-words',
+  selector: 'app-content-words',
   templateUrl: './words.component.html',
   styleUrls: ['./words.component.css']
 })
 export class WordsComponent implements OnInit, OnDestroy {
   words: Observable<Word[]>;
   search: FormControl = new FormControl();
-  wordText: FormControl =  new FormControl();
   word: FormControl = new FormControl();
   status: Observable<string>;
+  canAddFromSearch: Observable<boolean>;
   subscriptions: Subscription[] = [];
+  addDialogVisible: boolean;
 
   constructor(private readonly service: WordsService) { 
   }
@@ -26,8 +27,6 @@ export class WordsComponent implements OnInit, OnDestroy {
     let searchStrings = this.search.valueChanges
       .pipe(startWith(this.search.value || ''))
       .pipe(debounceTime(250));
-    this.word.valueChanges
-      .subscribe(w => this.wordText.setValue(w.text));
     this.words = this.service.getWordsStartsWith(searchStrings)
       .publishReplay(1).refCount();
     this.subscriptions.push(this.words.subscribe(newWords => {
@@ -42,7 +41,19 @@ export class WordsComponent implements OnInit, OnDestroy {
       if (this.search.value) return 'No search results.';
       return "Please start typing the word you're looking for.";
     });
+    this.canAddFromSearch = this.words.map(words => {
+      return this.search.value && 
+        !words.find(w => w.text === this.search.value);
+    });
   }
+
+  addClicked() {
+    this.service.addWord(this.search.value);//todo: error handling
+  }
+  deleteClicked() {
+    this.service.deleteWord(this.word.value.text);//todo: error handling
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
