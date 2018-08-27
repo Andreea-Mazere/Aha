@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2//database';
 import { AngularFireStorage } from 'angularfire2//storage';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/first';
 import { Md5 } from 'ts-md5';
 import { Polly } from 'aws-sdk';
 
@@ -130,26 +131,19 @@ export class WordsService {
         .replace(controlRe, '');
     return sanitized;
   }
-    
+  
   getWords(): Promise<Word[]>{
-    return new Promise<Word[]>((resolve, reject) => {
-      resolve([
-        new Word({
-          text: 'casă',
-          imageUrl: 'https://houseme.azureedge.net/images/Icons/svg/House-Me-Icons-SingleHouse.svg',
-          soundUrl: 'https://firebasestorage.googleapis.com/v0/b/aha-dev-environment.appspot.com/o/speech%2Fcas%C4%83.mp3?alt=media&token=b5a23b46-acd2-4ba0-9bc8-b318b6ff6056'
-        }),
-        new Word({
-          text: 'pasă',
-          imageUrl: 'http://coaching.worldrugby.org/images/keyfactors/passing.jpg',
-          soundUrl: 'https://firebasestorage.googleapis.com/v0/b/aha-dev-environment.appspot.com/o/speech%2Fpas%C4%83.mp3?alt=media&token=37ffb616-8031-45ec-8b53-dd2affb3633d'
-        }),
-        new Word({
-          text: 'masă',
-          imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzG2F1onhyUN0d1K0blpYV-dATTJ67sGcYF9o22YIryzHdbb8wcg',
-          soundUrl: 'https://firebasestorage.googleapis.com/v0/b/aha-dev-environment.appspot.com/o/speech%2Fmas%C4%83.mp3?alt=media&token=b42fc256-8e6d-47d7-a810-1de96b6e8be4'
+    return this.db.list('content/words').valueChanges()
+      .map(words => words.map(x => {
+        //var w: any = x;
+        let w = <Word>x;
+        return new Word({
+          text: w.text,
+          imageUrl: w.imageUrl,
+          soundUrl: w.soundUrl
         })
-      ]);
-    });
+      }))
+      .first()
+      .toPromise();    
   }
 }
