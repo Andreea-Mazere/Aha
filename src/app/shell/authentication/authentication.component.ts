@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { AuthenticationService } from './authentication.service';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { AuthenticationService } from '../../common/authentication/authentication.service';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -20,8 +20,8 @@ export class AuthenticationComponent implements OnInit {
     formBuilder: FormBuilder,
     private service: AuthenticationService
   ) {
-    this.userName = service.user.map(u => u.name);
-    this.loggedIn = service.user.map(u => u.isAuthenticated);
+    this.userName = service.users.map(u => u.name);
+    this.loggedIn = service.users.map(u => u.isAuthenticated);
     this.loginFormVisible = this.loggedIn.map(l => !l);
     this.form = formBuilder.group({
       email: ["", Validators.required],

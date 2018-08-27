@@ -1,0 +1,18 @@
+{
+  "rules": {
+    "config": {
+      "thirdParty": {
+        ".read": "auth.token.admin === true",
+        ".write": "auth.token.admin === true"
+      },
+      "app": {
+        ".read": true,
+        ".write": "auth.token.admin === true"
+      }
+    },
+    "content": {
+      ".read": true,
+      ".write": "auth.token.admin === true"
+    }
+  }
+}
