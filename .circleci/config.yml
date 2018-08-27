@@ -22,7 +22,15 @@ jobs:
               - node_modules
       - run:
           name: angular-build
-          command: npm run build
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+                env = dev
+            elif [ "${CIRCLE_BRANCH}" == "test" ]; then
+                env = test
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+                env = production
+            fi
+            ng build --env=$env
       - run:
           name: angular-test
           command: npm run test -- --watch=false
@@ -57,7 +65,7 @@ jobs:
           command: |
             #todo expand vars in deploy.config file https://stackoverflow.com/questions/14434549/how-to-expand-shell-variables-in-a-text-file
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-                firebaseEnv = default
+                firebaseEnv = dev
             elif [ "${CIRCLE_BRANCH}" == "test" ]; then
                 firebaseEnv = test
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then

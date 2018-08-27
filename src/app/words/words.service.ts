@@ -113,9 +113,9 @@ export class WordsService {
       var reader = new FileReader();
           
       //What to do when we gets data?
-      reader.onload = function( e ){
+      reader.onload = () => {
         var hasher = new Md5();
-        hasher.appendByteArray(e.target.result);
+        hasher.appendByteArray(reader.result);
         var hash = hasher.end().toString();
         resolve( hash );
       }
@@ -134,15 +134,7 @@ export class WordsService {
   
   getWords(): Promise<Word[]>{
     return this.db.list('content/words').valueChanges()
-      .map(words => words.map(x => {
-        //var w: any = x;
-        let w = <Word>x;
-        return new Word({
-          text: w.text,
-          imageUrl: w.imageUrl,
-          soundUrl: w.soundUrl
-        })
-      }))
+      .map(words => words.map(x => <Word>x))
       .first()
       .toPromise();    
   }
