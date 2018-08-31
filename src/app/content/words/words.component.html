@@ -17,21 +17,6 @@
           (click)="addClicked()"
           *ngIf="canAddFromSearch | async">
         </button>
-        <p-dialog header="AWS Credentials for sound generation" [(visible)]="addDialogVisible">
-          <form id="aws-credentials">
-            <div>
-              <label>user:</label>
-              <input type="text" pInputText />
-            </div>
-            <div>
-              <label>password:</label>
-              <input type="password" pInputText />
-            </div>
-            <p-footer>
-              <button type="submit" pButton icon="pi pi-check" (click)="display=false" label="OK"></button>
-            </p-footer>
-          </form>
-        </p-dialog>
       </p-footer>
     </p-listbox>
   </div>

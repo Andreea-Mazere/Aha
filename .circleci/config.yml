@@ -30,7 +30,7 @@ jobs:
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then
                 env = production
             fi
-            ng build --env=$env
+            ng build --configuration=$env
       - run:
           name: angular-test
           command: npm run test -- --watch=false
