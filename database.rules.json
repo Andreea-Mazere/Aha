@@ -1,5 +1,9 @@
 {
   "rules": {
+    "deploy": {
+      ".read": "false",
+      ".write": "false"
+    },
     "config": {
       "thirdParty": {
         ".read": "auth.token.admin === true",

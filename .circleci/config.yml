@@ -71,12 +71,12 @@ jobs:
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then
                 firebaseEnv="production"
             fi
-            openssl aes-256-cbc -d -in "./firebase-service-key-${firebaseEnv}-encrypted" -out ./firebase-service-key.json -k $FIREBASE_SERVICE_KEY -md md5
-            node ./app/migrations.js $firebaseEnv
             firebase use $firebaseEnv
-            firebase functions:config:set aws.id="$AWS_ID"
-            firebase functions:config:set aws.key="$AWS_KEY"
-            firebase deploy --token=$FIREBASE_TOKEN --non-interactive
+            firebase functions:config:set seedUserPassword=$SEED_USER_PASSWORD
+            firebase deploy --non-interactive
+            firebase database:update /config/thirdParty/aws --data "{\\\"accessKeyId\\\":\\\"$AWS_ID\\\", \\\"secretAccessKey\\\":\\\"$AWS_KEY\\\"}" --confirm
+            #trigger migrations
+            firebase database:push /deploy --data "{\\\"time\\\": \\\"\\\"}"
 
 workflows:
     version: 2
