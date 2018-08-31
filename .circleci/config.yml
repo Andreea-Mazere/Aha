@@ -71,7 +71,7 @@ jobs:
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then
                 firebaseEnv="production"
             fi
-            openssl aes-256-cbc -d -in './firebase-service-key-'+$firebaseEnv+'-encrypted' -out ./firebase-service-key.json -k $FIREBASE_SERVICE_KEY
+            openssl aes-256-cbc -d -in './firebase-service-key-${firebaseEnv}-encrypted' -out ./firebase-service-key.json -k $FIREBASE_SERVICE_KEY
             node ./app/migrations.js $firebaseEnv
             firebase use $firebaseEnv
             firebase functions:config:set aws.id="$AWS_ID"
