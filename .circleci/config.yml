@@ -24,13 +24,13 @@ jobs:
           name: angular-build
           command: |
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-                env = dev
+                angularEnv = dev
             elif [ "${CIRCLE_BRANCH}" == "test" ]; then
-                env = test
+                angularEnv = test
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                env = production
+                angularEnv = production
             fi
-            ng build --configuration=$env
+            ng build --configuration=$angularEnv
       - run:
           name: angular-test
           command: npm run test -- --watch=false
