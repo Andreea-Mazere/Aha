@@ -24,11 +24,11 @@ jobs:
           name: angular-build
           command: |
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-                angularEnv = dev
+                angularEnv="dev"
             elif [ "${CIRCLE_BRANCH}" == "test" ]; then
-                angularEnv = test
+                angularEnv="test"
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                angularEnv = production
+                angularEnv="production"
             fi
             ng build --configuration=$angularEnv
       - run:
@@ -65,11 +65,11 @@ jobs:
           command: |
             #todo expand vars in deploy.config file https://stackoverflow.com/questions/14434549/how-to-expand-shell-variables-in-a-text-file
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-                firebaseEnv = dev
+                firebaseEnv="dev"
             elif [ "${CIRCLE_BRANCH}" == "test" ]; then
-                firebaseEnv = test
+                firebaseEnv="test"
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                firebaseEnv = production
+                firebaseEnv="production"
             fi
             openssl aes-256-cbc -d -in './firebase-service-key-'+$firebaseEnv+'-encrypted' -out ./firebase-service-key.json -k $FIREBASE_SERVICE_KEY
             node ./app/migrations.js $firebaseEnv
