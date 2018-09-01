@@ -30,15 +30,17 @@ function  seed() : Promise<any> {
 function seedAwsConfig(): Promise<any> {
     var ref = admin.database().ref("/config/thirdParty/aws")
     var awsCredentials = seedData.aws;
+    console.log("seed aws config...");
     return ref.update({
 		accessKeyId: awsCredentials.id,
 		secretAccessKey: awsCredentials.key
     })
     .then(() => console.log("updated "))
-    .catch(e => console.log("update error: "))
+    .catch(e => console.error("update error: ", e))
 }
 
 function seedUser():Promise<any> {
+    console.log("seed user...");
     return admin.auth().listUsers(1)
     .then(function(listUsersResult) {
         if (listUsersResult.users.length > 0)
@@ -54,7 +56,8 @@ function seedUser():Promise<any> {
             displayName: "Creators",
             disabled: false})    
         .then(setAdminClaim);
-    });
+    })
+    .catch(e => console.error("seed user error: ", e));
 }
 
 function fillInDeployDetails(snapshot: functions.database.DataSnapshot) {
