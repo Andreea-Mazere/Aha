@@ -1,5 +1,5 @@
-<div>
-  <img [src]= 'word.imageUrl' (click)='onClickImage()'/>
+<div class="slide">
+  <img class="image" [src]= 'word.imageUrl' (click)='onClickImage()'/>
   <audio #audio [src]='word.soundUrl' (ended)='onEndedAudio()'></audio>
-  <span [innerHtml]='word.text' [class.hidden]='textHidden' (click)='onClickText()'></span>
+  <span class="text" [innerHtml]='word.text' [class.hidden]='textHidden' (click)='onClickText()'></span>
 </div>

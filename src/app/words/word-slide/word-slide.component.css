@@ -1,3 +1,21 @@
 .hidden {
   visibility: hidden;
 }
+
+.slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.slide>.image {
+  object-fit: contain;
+  height: 60vh;
+  width:auto;
+}
+
+.slide>.text {
+  font-size: 10vh;
+  text-align: center;
+}
