@@ -41,16 +41,6 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 
-//todo support different environments depending on origin
-var firebaseConfig = {
-  apiKey: "AIzaSyAlVylOFYkMZquZ_YCRnqC0rgekme7Rle8",
-  authDomain: "aha-dev-environment.firebaseapp.com",
-  databaseURL: "https://aha-dev-environment.firebaseio.com",
-  projectId: "aha-dev-environment",
-  storageBucket: "aha-dev-environment.appspot.com",
-  messagingSenderId: "516676519628"
-};
-
 @NgModule({
   declarations: [
     AppComponent,

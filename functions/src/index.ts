@@ -33,7 +33,9 @@ function seedAwsConfig(): Promise<any> {
     return ref.update({
 		accessKeyId: awsCredentials.id,
 		secretAccessKey: awsCredentials.key
-	});
+    })
+    .then(() => console.log("updated "))
+    .catch(e => console.log("update error: "))
 }
 
 function seedUser():Promise<any> {
