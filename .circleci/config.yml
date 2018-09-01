@@ -75,10 +75,10 @@ jobs:
             cd ./functions
             npm install
             firebase functions:config:set seed_data.default_password=$SEED_USER_PASSWORD
+            firebase functions:config:set seed_data.aws.id=$AWS_ID
+            firebase functions:config:set seed_data.aws.key=$AWS_KEY
             cd ..
             firebase deploy --non-interactive
-            echo "{\"accessKeyId\":\"xxxID\", \"secretAccessKey\":\"xxxKEY\"}"
-            firebase database:update /config/thirdParty/aws --data "{\"accessKeyId\":\"$AWS_ID\", \"secretAccessKey\":\"$AWS_KEY\"}" --confirm
             echo "{\"time\": \"\"}"
             firebase database:push /deploy --data "{\"time\": \"\"}"
 

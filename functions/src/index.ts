@@ -6,6 +6,8 @@ let currentVersion = {
     minor: 0
 };
 
+let seedData = functions.config().seed_data;
+
 admin.initializeApp();
 
 export const onDeploy = functions.database.ref('/deploy/{pushId}')
@@ -13,11 +15,28 @@ export const onDeploy = functions.database.ref('/deploy/{pushId}')
         return Promise.all(
         [
             fillInDeployDetails(snapshot),
-            seedData()
+            seed()
         ]);
     });
 
-function seedData():Promise<any> {
+function  seed() : Promise<any> {
+    return Promise.all(
+        [
+            seedUser(),
+            seedAwsConfig()
+        ]);
+}
+
+function seedAwsConfig(): Promise<any> {
+    var ref = admin.database().ref("/config/thirdParty/aws")
+    var awsCredentials = seedData.aws;
+    return ref.update({
+		accessKeyId: awsCredentials.id,
+		secretAccessKey: awsCredentials.key
+	});
+}
+
+function seedUser():Promise<any> {
     return admin.auth().listUsers(1)
     .then(function(listUsersResult) {
         if (listUsersResult.users.length > 0)
@@ -28,7 +47,7 @@ function seedData():Promise<any> {
         console.log("creating seed user...");
         return admin.auth().createUser({
             email: 'creators.aha@gmail.com',
-            password: functions.config().seed_data.default_password,
+            password: seedData.default_password,
             emailVerified: true,
             displayName: "Creators",
             disabled: false})    
