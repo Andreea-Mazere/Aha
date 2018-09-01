@@ -40,6 +40,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AuthenticatedUserCanActivateGuard } from './common/guards/authenticated-user-can-activate.guard';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
     WordsService, 
     StudentCanActivateGuard, 
     AdminCanActivateGuard, 
+    AuthenticatedUserCanActivateGuard, 
     DynamicHomeGuard, 
     NavigationService
   ],

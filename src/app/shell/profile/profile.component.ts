@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../common/authentication/authentication.service';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -9,6 +10,7 @@ import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from
 })
 export class ProfileComponent implements OnInit {
   passwordChangeForm: FormGroup;
+  showPasswordChanged: boolean;
   get newPasswordConfirm() { return this.passwordChangeForm.get('newPasswordConfirm'); }
 
   constructor(
@@ -26,6 +28,7 @@ export class ProfileComponent implements OnInit {
 
   changePassword() {
     this.authenticationService.changePassword(this.passwordChangeForm.value.oldPassword, this.passwordChangeForm.value.newPassword)
+    .then(() => this.showPasswordChanged = true)
     .catch(e => {
       console.log('error changing password', e);
       let control = this.getFormControlByErrorCode(e.code);
@@ -35,6 +38,10 @@ export class ProfileComponent implements OnInit {
       Object.assign(errors, newError);
       control.setErrors(errors);
     });
+  }
+  
+  onPasswordChangeAcknowledged() {
+    this.showPasswordChanged = false;
   }
 
   private getFormControlByErrorCode(code): AbstractControl {

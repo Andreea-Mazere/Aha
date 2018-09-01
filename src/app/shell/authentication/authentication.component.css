@@ -16,3 +16,8 @@ form>button {
   position:relative;
   top:1.2rem;
 }
+
+.authentication-container {
+  display:inline-block;
+  margin-left:2em;
+}

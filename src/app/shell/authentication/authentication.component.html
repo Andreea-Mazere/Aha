@@ -1,4 +1,4 @@
-<div>
+<div class="authentication-container">
   <form [formGroup]="form" (ngSubmit)="login()" *ngIf="(loginFormVisible | async)">
     <div>
       <label for="email">Email:</label>
@@ -15,7 +15,7 @@
   </form>
 
   <p *ngIf="loggedIn | async">
-    logged in as {{userName | async}}
+    logged in as <a routerLink="profile">{{userName | async}}</a>
     <button (click)="logout()">Logout</button>
   </p>
 </div>
