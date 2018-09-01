@@ -23,10 +23,7 @@ export class WordsService {
       .then (hash => {
         console.log('hash = ', hash);
         let filePath = `content/images/${this.sanitizeFileName(imageFile.name)}-${hash}`;
-        let storageFile = this.storage.storage.ref(filePath);
-        console.log('uploading file...');
-        return storageFile.put(imageFile)
-          .then(() => storageFile.getDownloadURL());
+        return this.upload(filePath, imageFile);
       })
       .then(url => {
         console.log('uploaded. url = ', url);
@@ -88,12 +85,9 @@ export class WordsService {
       }))
       .then (speechData => {        
         let filePath = `content/speech/${this.sanitizeFileName(text)}`;
-        let storageFile = this.storage.storage.ref(filePath);
-        console.log('uploading file...');
         let audioStream:any = speechData.AudioStream;
-        var uInt8Array = new Uint8Array(audioStream);
-        return storageFile.put(uInt8Array)
-        .then(() => storageFile.getDownloadURL());
+        var byteArrayToUpload = new Uint8Array(audioStream);
+        return this.upload(filePath, byteArrayToUpload);
       })
       .then (url => {
         console.log('downloadUrl = ', url);
@@ -105,6 +99,17 @@ export class WordsService {
         let ref = this.db.database.ref('/').child('content').child('words').child(text);
         return ref.set(word);  
      });
+  }
+
+  private upload(filePath, data: Blob|Uint8Array|ArrayBuffer) :Promise<string>{
+    let storageFile = this.storage.storage.ref(filePath);
+    console.log('uploading file...');
+    return storageFile.put(data)
+      .then(() => {
+        var url = storageFile.getDownloadURL();
+        console.log("uploaded to " + url);
+        return url;
+      });
   }
 
   private fileHash( file ): Promise<string> { 
