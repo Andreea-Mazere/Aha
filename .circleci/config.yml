@@ -22,7 +22,15 @@ jobs:
               - node_modules
       - run:
           name: angular-build
-          command: npm run build
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+                angularEnv="dev"
+            elif [ "${CIRCLE_BRANCH}" == "test" ]; then
+                angularEnv="test"
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+                angularEnv="production"
+            fi
+            npm run build -- --configuration=$angularEnv
       - run:
           name: angular-test
           command: npm run test -- --watch=false
@@ -35,7 +43,7 @@ jobs:
   deploy:
     working_directory: ~/Aha
     docker:
-      - image: circleci/node:9.7.1-browsers
+      - image: circleci/node:9.8.0-browsers
     steps:
       - checkout
       # Log the current branch
@@ -45,6 +53,9 @@ jobs:
       - run:
           name: Install firebase CLI
           command: sudo npm install -g firebase-tools
+      - run:
+          name: Install firebase admin sdk
+          command: npm install firebase-admin
       # Restore cache from the build job which contains the
       # dist folder that needs to be deployed
       - restore_cache:
@@ -52,14 +63,24 @@ jobs:
       - run:
           name: deploy to correct environment according to branch
           command: |
+            #todo expand vars in deploy.config file https://stackoverflow.com/questions/14434549/how-to-expand-shell-variables-in-a-text-file
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-                firebase use default
+                firebaseEnv="dev"
             elif [ "${CIRCLE_BRANCH}" == "test" ]; then
-                firebase use test
+                firebaseEnv="test"
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                firebase use production
+                firebaseEnv="production"
             fi
-            firebase deploy --token=$FIREBASE_TOKEN --non-interactive
+            firebase use $firebaseEnv
+            cd ./functions
+            npm install
+            firebase functions:config:set seed_data.default_password=$SEED_USER_PASSWORD
+            firebase functions:config:set seed_data.aws.id=$AWS_ID
+            firebase functions:config:set seed_data.aws.key=$AWS_KEY
+            cd ..
+            firebase deploy --non-interactive
+            echo "{\"time\": \"\"}"
+            firebase database:push /deploy --data "{\"time\": \"\"}"
 
 workflows:
     version: 2

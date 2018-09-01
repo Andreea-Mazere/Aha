@@ -12,5 +12,15 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "functions": {
+    "predeploy": "npm --prefix ./functions/ run build",
+    "source": "functions"
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }

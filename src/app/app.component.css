@@ -1,0 +1,17 @@
+form .ng-invalid.ng-touched,
+form .ng-invalid.ng-dirty {
+  border-left: 5px solid red;
+}
+
+form {
+  display:table;
+}
+
+form>div {
+  display:table-row;
+}
+
+form>div>label,
+form>div>input {
+  display: table-cell;
+}
