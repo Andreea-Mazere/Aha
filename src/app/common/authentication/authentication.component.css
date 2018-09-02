@@ -1,20 +1,13 @@
-/*todo: use grid layout*/
-label, input {
+form {
   display:block;
 }
 
-label {
-  text-align: left;
-}
-
-form>div {
+form>span {
   display:inline-block;
-  vertical-align: top;
 }
 
-form>button {
-  position:relative;
-  top:1.2rem;
+  form>* {
+    vertical-align: top;
 }
 
 .authentication-container {

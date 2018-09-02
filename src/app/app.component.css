@@ -1,6 +1,6 @@
-form .ng-invalid.ng-touched,
-form .ng-invalid.ng-dirty {
-  border-left: 5px solid red;
+.app-header {
+  text-align:center;
+  padding: 1em;
 }
 
 form {
