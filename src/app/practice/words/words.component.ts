@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { WordsService } from './words.service';
-import { Word } from './word';
+import { WordsService } from '../../common/words/words.service';
+import { Word } from '../../common/words/word';
 
 @Component({
   selector: 'app-words',

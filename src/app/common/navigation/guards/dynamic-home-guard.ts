@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CanActivate} from "@angular/router";
-import { NavigationService } from "../../navigation/navigation.service";
+import { NavigationService } from "../navigation.service";
 
 @Injectable()
 export class DynamicHomeGuard implements CanActivate {

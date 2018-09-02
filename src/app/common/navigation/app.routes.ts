@@ -1,13 +1,13 @@
 import { Routes } from "@angular/router";
-import { WordsComponent } from "./words/words.component";
-import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
-import { StudentCanActivateGuard } from "./common/guards/student-can-activate.guard";
-import { ContentComponent } from "./content/content.component";
-import { DynamicHomeGuard } from "./common/guards/dynamic-home-guard";
-import { AdminCanActivateGuard } from "./common/guards/admin-can-activate.guard";
-import { WordsComponent as ContentWordsComponent } from "./content/words/words.component";
-import { ProfileComponent } from "./shell/profile/profile.component";
-import { AuthenticatedUserCanActivateGuard } from "./common/guards/authenticated-user-can-activate.guard";
+import { WordsComponent } from "../../practice/words/words.component";
+import { PageNotFoundComponent } from "../../common/page-not-found/page-not-found.component";
+import { StudentCanActivateGuard } from "../../common/navigation/guards/student-can-activate.guard";
+import { ContentComponent } from "../../content/content.component";
+import { DynamicHomeGuard } from "./guards/dynamic-home-guard";
+import { AdminCanActivateGuard } from "./guards/admin-can-activate.guard";
+import { AuthenticatedUserCanActivateGuard } from "./guards/authenticated-user-can-activate.guard";
+import { WordsComponent as ContentWordsComponent } from "../../content/words/words.component";
+import { ProfileComponent } from "../../profile/profile.component";
 
 
 export const routes: Routes = [

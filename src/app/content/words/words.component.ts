@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { WordsService } from '../../words/words.service';
-import { Word } from '../../words/word';
+import { WordsService } from '../../common/words/words.service';
+import { Word } from '../../common/words/word';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
 import { startWith, debounceTime } from 'rxjs/operators';
