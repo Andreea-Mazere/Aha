@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { WordsService } from './words.service';
-import { AppModule } from '../app.module';
+import { AppModule } from '../../app.module';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('WordsService', () => {

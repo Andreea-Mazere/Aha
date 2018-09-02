@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthenticationService, User } from '../common/authentication/authentication.service';
+import { AuthenticationService, User } from '../authentication/authentication.service';
 import { Router} from '@angular/router';
 import {  skip, first } from 'rxjs/operators';
 

@@ -1,0 +1,16 @@
+form {
+  display:block;
+}
+
+form>span {
+  display:inline-block;
+}
+
+  form>* {
+    vertical-align: top;
+}
+
+.authentication-container {
+  display:inline-block;
+  margin-left:2em;
+}

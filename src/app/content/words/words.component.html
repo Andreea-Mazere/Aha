@@ -29,17 +29,14 @@
       <label>Image:</label>
       <p-fileUpload name="word-image" maxFileSize="3000000" accept="image/*" auto="true" 
         customUpload="true" (uploadHandler)="onUpload($event)"> 
-        <ng-template pTemplate="toolbar">
-        </ng-template>  
         <ng-template pTemplate="content">
-            <img [src]= 'word.value.imageUrl'/>
-            <p *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</p>
+            <img [src]= 'word.value.imageUrl || ""'/>
         </ng-template>
       </p-fileUpload>
     </div>
     <div>
       <label>Sound:</label>
-      <audio controls [src]="word.value.soundUrl"></audio>
+      <audio controls [src]="word.value.soundUrl || ''"></audio>
     </div>
     <button pButton  type="button" label="Delete" (click)="deleteClicked()"></button>
   </form>

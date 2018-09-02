@@ -1,6 +1,6 @@
 import { Component, OnInit, Input,
   ViewChild, ElementRef, EventEmitter, Output} from '@angular/core';
-import { Word } from '../word';
+import { Word } from '../../../common/words/word';
 
 @Component({
   selector: 'app-word-slide',

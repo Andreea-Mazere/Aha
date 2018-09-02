@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { TranslatePipe, TranslateService} from '@ngx-translate/core';
-import { NavigationService } from './navigation/navigation.service';
+import { NavigationService } from './common/navigation/navigation.service';
 
 @Component({
   selector: 'app-root',
