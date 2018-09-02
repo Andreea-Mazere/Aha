@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
 import { startWith, debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-content-words',
@@ -20,10 +21,24 @@ export class WordsComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   addDialogVisible: boolean;
 
-  constructor(private readonly service: WordsService) { 
+  constructor(
+    private readonly service: WordsService,
+    private readonly activatedRoute: ActivatedRoute, 
+    private readonly router: Router) { 
   }
 
   ngOnInit() {
+    this.activatedRoute.params
+      .subscribe(params => { 
+        if (this.word.value && this.word.value.text === params.word)
+          return;
+        this.word.setValue({text: params.word}); 
+        this.search.setValue(params.search); 
+      });
+    this.word.valueChanges.subscribe(w => {
+      if (this.word.value && this.search.value)
+        this.router.navigate(['/content/words', this.search.value || '', this.word.value.text || '']);
+    });
     let searchStrings = this.search.valueChanges
       .pipe(startWith(this.search.value || ''))
       .pipe(debounceTime(250));

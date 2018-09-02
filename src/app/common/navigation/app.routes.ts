@@ -27,6 +27,11 @@ export const routes: Routes = [
         canActivate: [AdminCanActivateGuard]
     },
     {
+        path: 'content/words/:search/:word',
+        component: ContentWordsComponent, 
+        canActivate: [AdminCanActivateGuard]
+    },
+    {
         path: 'profile',
         component: ProfileComponent, 
         canActivate: [AuthenticatedUserCanActivateGuard]
