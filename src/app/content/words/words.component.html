@@ -1,0 +1,43 @@
+<div id = "words">
+  <div id="word-list">
+    <p-listbox 
+      [options]="words | async" 
+      [formControl]="word" 
+      optionLabel="text">
+      <p-header>
+        <div class="ui-listbox-filter-container">
+            <span class="ui-listbox-filter-icon pi pi-search" title="words starting with..."></span>
+            <input type="text" pInputText
+             id="search" [formControl]="search" placeholder="search for word"/>
+          </div>
+      </p-header>
+      <p-footer>
+        <p [innerHtml]="(status | async)"></p>
+        <button pButton label = "Add now" 
+          (click)="addClicked()"
+          *ngIf="canAddFromSearch | async">
+        </button>
+      </p-footer>
+    </p-listbox>
+  </div>
+  <form id="word-editor"  *ngIf="word.value">
+    <div>
+      <label>Word:</label>
+      <span>{{word.value.text}}</span>
+    </div>
+    <div>
+      <label>Image:</label>
+      <p-fileUpload name="word-image" maxFileSize="3000000" accept="image/*" auto="true" 
+        customUpload="true" (uploadHandler)="onUpload($event)"> 
+        <ng-template pTemplate="content">
+            <img [src]= 'word.value.imageUrl || ""'/>
+        </ng-template>
+      </p-fileUpload>
+    </div>
+    <div>
+      <label>Sound:</label>
+      <audio controls [src]="word.value.soundUrl || ''"></audio>
+    </div>
+    <button pButton  type="button" label="Delete" (click)="deleteClicked()"></button>
+  </form>
+</div>

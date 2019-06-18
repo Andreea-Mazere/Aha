@@ -1,0 +1,21 @@
+<div class="authentication-container">
+  <form [formGroup]="form" (ngSubmit)="login()" *ngIf="(loginFormVisible | async)">
+    <span class="ui-float-label">
+      <input type="email" pInputText id="email" formControlName="email"/>
+      <label for="email">Email:</label>
+      <app-validation-errors translationPrefix="loginForm" [control]="form.get('email')"></app-validation-errors>
+    </span>
+    <span class="ui-float-label">
+      <input type="password" pInputText id="password" formControlName="password"/>
+      <label for="password">Password:</label>
+      <app-validation-errors translationPrefix="loginForm" [control]="form.get('password')"></app-validation-errors>
+    </span>
+    <button type="submit" pButton [disabled]="!form.valid" label="Login"></button>
+    <app-validation-errors translationPrefix="loginForm" [control]="form"></app-validation-errors>
+  </form>
+
+  <span *ngIf="loggedIn | async">
+    logged in as <a routerLink="profile">{{userName | async}}</a>
+    <button pButton (click)="logout()" label="Logout" ></button>
+  </span>
+</div>

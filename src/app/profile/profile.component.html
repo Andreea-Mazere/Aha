@@ -1,21 +1,27 @@
-<div>
+<div class="profileContainer">
   <form [formGroup]="passwordChangeForm" (ngSubmit)="changePassword()">
     <div>
       <label for="oldPassword">Old password:</label>
-      <input type="password" id="oldPassword" formControlName="oldPassword"/>
+      <input type="password" pInputText id="oldPassword" formControlName="oldPassword"/>
       <app-validation-errors translationPrefix="passwordChangeForm" [control]="passwordChangeForm.get('oldPassword')"></app-validation-errors>
     </div>
     <div>
       <label for="newPassword">New password:</label>
-      <input type="password" id="newPassword" formControlName="newPassword"/>
+      <input type="password" pInputText id="newPassword" formControlName="newPassword"/>
       <app-validation-errors translationPrefix="passwordChangeForm" [control]="passwordChangeForm.get('newPassword')"></app-validation-errors>
     </div>
     <div>
       <label for="newPasswordConfirm">Confirm new password:</label>
-      <input type="password" id="newPasswordConfirm" formControlName="newPasswordConfirm"/>
+      <input type="password" pInputText id="newPasswordConfirm" formControlName="newPasswordConfirm"/>
       <app-validation-errors translationPrefix="passwordChangeForm" [control]="passwordChangeForm.get('newPasswordConfirm')"></app-validation-errors>
     </div>
-    <button type="submit" [disabled]="!passwordChangeForm.valid">Change password</button>
+    <button type="submit" pButton [disabled]="!passwordChangeForm.valid" label="Change password"></button>
     <app-validation-errors translationPrefix="passwordChangeForm" [control]="passwordChangeForm"></app-validation-errors>
   </form>
+  <p-dialog header="Password changed" [(visible)]="showPasswordChanged" [modal]="true" [responsive]="true">
+    <p>Your password has been successfully changed.</p>
+    <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="onPasswordChangeAcknowledged()" label="OK"></button>
+</p-footer>
+</p-dialog>
 </div>

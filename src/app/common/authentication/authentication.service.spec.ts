@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from '../../common/authentication/authentication.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ReplaySubject } from 'rxjs';
 

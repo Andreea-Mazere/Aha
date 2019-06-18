@@ -22,7 +22,15 @@ jobs:
               - node_modules
       - run:
           name: angular-build
-          command: npm run build
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+                angularEnv="dev"
+            elif [ "${CIRCLE_BRANCH}" == "test" ]; then
+                angularEnv="test"
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+                angularEnv="production"
+            fi
+            npm run build -- --configuration=$angularEnv
       - run:
           name: angular-test
           command: npm run test -- --watch=false
@@ -55,17 +63,24 @@ jobs:
       - run:
           name: deploy to correct environment according to branch
           command: |
+            #todo expand vars in deploy.config file https://stackoverflow.com/questions/14434549/how-to-expand-shell-variables-in-a-text-file
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-                firebaseEnv = default
+                firebaseEnv="dev"
             elif [ "${CIRCLE_BRANCH}" == "test" ]; then
-                firebaseEnv = test
+                firebaseEnv="test"
             elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                firebaseEnv = production
+                firebaseEnv="production"
             fi
-            openssl aes-256-cbc -d -in './firebase-service-key-'+$firebaseEnv+'-encrypted' -out ./firebase-service-key.json -k $FIREBASE_SERVICE_KEY
-            node ./app/migrations.js ./firebase-service-key.json $CREATORS_INITIAL_PASSWORD
             firebase use $firebaseEnv
-            firebase deploy --token=$FIREBASE_TOKEN --non-interactive
+            cd ./functions
+            npm install
+            firebase functions:config:set seed_data.default_password=$SEED_USER_PASSWORD
+            firebase functions:config:set seed_data.aws.id=$AWS_ID
+            firebase functions:config:set seed_data.aws.key=$AWS_KEY
+            cd ..
+            firebase deploy --non-interactive
+            echo "{\"time\": \"\"}"
+            firebase database:push /deploy --data "{\"time\": \"\"}"
 
 workflows:
     version: 2

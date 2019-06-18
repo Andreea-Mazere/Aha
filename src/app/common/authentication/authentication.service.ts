@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
+import * as firebase from 'firebase';
 import 'rxjs/add/operator/publishReplay';
-import * as firebase from 'firebase/app';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/toPromise';
+import { first } from 'rxjs/operators';
 
 @Injectable()
 export class AuthenticationService {
@@ -21,9 +23,12 @@ export class AuthenticationService {
   }
   private firebaseUser: Observable<firebase.User>;
   firebaseUserValue: firebase.User;
-  user: Observable<User>;
+  users: Observable<User>;
+  getUser(): Promise<User>{
+    return this.users.pipe(first()).toPromise();
+  }
 
-  getUserData(u: firebase.User): Promise<User> {
+  private getUserData(u: firebase.User): Promise<User> {
     if (u == null)
       return new Promise<User>((resolve, reject) => {
         var guest = new User();
@@ -38,6 +43,7 @@ export class AuthenticationService {
       user.isAdmin = claims.admin;
       user.name = claims.name;
       user.isAuthenticated = true;
+      user.token = id;
       console.log('user: ', user);
       return user;
     });
@@ -47,7 +53,7 @@ export class AuthenticationService {
   ) {
     this.firebaseUser = afAuth.authState;
     this.firebaseUser.subscribe(u => this.firebaseUserValue = u);
-    this.user = this.firebaseUser.switchMap(this.getUserData).publishReplay(1).refCount();
+    this.users = this.firebaseUser.switchMap(this.getUserData).publishReplay(1).refCount();
   }
 
 }
@@ -56,4 +62,5 @@ export class User {
   isAuthenticated: boolean;
   name: string;
   isAdmin: boolean;
+  token: string;
 }
